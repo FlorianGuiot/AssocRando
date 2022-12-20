@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Randonnees{% endblock %}
+
+{% block body %}
+
+
+
+<div class="container mt-2">
+    <div class="row">
+
+        {% for randonnee in lesRandonnees %}
+
+        <div class="col-3">
+            <div class="card" style="width: 18rem;">
+                <img src={% if randonnee.laMiniature is defined and randonnee.laMiniature is not null %}{{ asset('img/' ~ randonnee.laMiniature.lien) }}{% else %}{{ asset('img/remplissage.jpg') }}{% endif %} class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{ randonnee.libelle|e }}</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+        </div>
+                    
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -24,9 +24,16 @@ class Randonnee
     #[ORM\OneToMany(mappedBy: 'laRandonnee', targetEntity: SessionRando::class, orphanRemoval: true)]
     private Collection $lesSessions;
 
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?Image $laMiniature = null;
+
+    #[ORM\OneToMany(mappedBy: 'laRandonnee', targetEntity: Image::class, orphanRemoval: true)]
+    private Collection $lesImages;
+
     public function __construct()
     {
         $this->lesSessions = new ArrayCollection();
+        $this->lesImages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -82,6 +89,48 @@ class Randonnee
             // set the owning side to null (unless already changed)
             if ($lesSession->getLaRandonnee() === $this) {
                 $lesSession->setLaRandonnee(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getLaMiniature(): ?Image
+    {
+        return $this->laMiniature;
+    }
+
+    public function setLaMiniature(?Image $laMiniature): self
+    {
+        $this->laMiniature = $laMiniature;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Image>
+     */
+    public function getLesImages(): Collection
+    {
+        return $this->lesImages;
+    }
+
+    public function addLesImage(Image $lesImage): self
+    {
+        if (!$this->lesImages->contains($lesImage)) {
+            $this->lesImages->add($lesImage);
+            $lesImage->setLaRandonnee($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLesImage(Image $lesImage): self
+    {
+        if ($this->lesImages->removeElement($lesImage)) {
+            // set the owning side to null (unless already changed)
+            if ($lesImage->getLaRandonnee() === $this) {
+                $lesImage->setLaRandonnee(null);
             }
         }
 
