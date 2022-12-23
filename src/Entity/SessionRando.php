@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\SessionRandoRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -23,6 +25,14 @@ class SessionRando
     #[ORM\ManyToOne(inversedBy: 'lesSessions')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Randonnee $laRandonnee = null;
+
+    #[ORM\ManyToMany(targetEntity: Utilisateur::class, mappedBy: 'lesSessions')]
+    private Collection $lesParticipants;
+
+    public function __construct()
+    {
+        $this->lesParticipants = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -61,6 +71,33 @@ class SessionRando
     public function setLaRandonnee(?Randonnee $laRandonnee): self
     {
         $this->laRandonnee = $laRandonnee;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Utilisateur>
+     */
+    public function getLesParticipants(): Collection
+    {
+        return $this->lesParticipants;
+    }
+
+    public function addLesParticipant(Utilisateur $lesParticipant): self
+    {
+        if (!$this->lesParticipants->contains($lesParticipant)) {
+            $this->lesParticipants->add($lesParticipant);
+            $lesParticipant->addLesSession($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLesParticipant(Utilisateur $lesParticipant): self
+    {
+        if ($this->lesParticipants->removeElement($lesParticipant)) {
+            $lesParticipant->removeLesSession($this);
+        }
 
         return $this;
     }

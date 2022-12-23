@@ -4,6 +4,7 @@
 
 {% block body %}
 
+{% include('navbar.html.twig') %}
 
 
 <div class="container mt-2">
@@ -16,8 +17,8 @@
                 <img src={% if randonnee.laMiniature is defined and randonnee.laMiniature is not null %}{{ asset('img/' ~ randonnee.laMiniature.lien) }}{% else %}{{ asset('img/remplissage.jpg') }}{% endif %} class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">{{ randonnee.libelle|e }}</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                    <p class="card-text description">{% if randonnee.description is defined and randonnee.description is not null %}{{ randonnee.description|e }}{% endif %}</p>
+                    <a href={{ path("show_randonnee", {id: randonnee.id}) }} class="btn btn-primary">Voir les sessions</a>
                 </div>
             </div>
         </div>

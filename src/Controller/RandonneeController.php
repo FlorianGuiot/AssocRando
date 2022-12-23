@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Repository\RandonneeRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Randonnee;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,13 +14,51 @@ class RandonneeController extends AbstractController
 {
     #[Route('/randonnee', name: 'app_randonnee')]
     public function index(ManagerRegistry $doctrine): Response
-    {
-        //Récupère toutes les randonnées disponibles
-        $lesRandonnees = $doctrine->getRepository(Randonnee::class)->findAll();
+    {   
+        $recherche = null;
+
+        if(isset($_POST['recherche'])){
+
+            
+            //Récupère toutes les randonnées disponibles
+            $entityManager = $doctrine->getManager();
+            $lesRandonnees = $entityManager->getRepository(Randonnee::class)->findByLibelle($_POST['recherche']);
+
+
+            $recherche = $_POST['recherche'];
+
+        }else{
+
+            //Récupère toutes les randonnées disponibles
+            $entityManager = $doctrine->getManager();
+            $lesRandonnees = $entityManager->getRepository(Randonnee::class)->findRandonnee();
+            // $lesRandonnees = $doctrine->getRepository(Randonnee::class)->findAll();
+
+        }
+        
 
         return $this->render('randonnee/index.html.twig', [
             'controller_name' => 'RandonneeController',
-            'lesRandonnees' => $lesRandonnees
+            'lesRandonnees' => $lesRandonnees,
+            'recherche' => $recherche
+        ]);
+    }
+
+
+
+    #[Route('/randonnee/{id}', name: 'show_randonnee')]
+    public function randoInfo($id,ManagerRegistry $doctrine): Response
+    {   
+
+        $entityManager = $doctrine->getManager();
+        $laRandonnee = $entityManager->getRepository(Randonnee::class)->find($id);
+        $lesSessions = $laRandonnee->getLesSessions();
+        
+
+        return $this->render('randonnee/randonnee.html.twig', [
+            'controller_name' => 'RandonneeController',
+            'laRandonnee' => $laRandonnee,
+            'lesSessions' => $lesSessions 
         ]);
     }
 

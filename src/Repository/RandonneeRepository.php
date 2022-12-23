@@ -39,6 +39,38 @@ class RandonneeRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+    * @return Randonnee[] Returns an array of Randonnee objects
+    */
+   public function findRandonnee(): array
+   {
+
+        return  
+        $this->createQueryBuilder('r')
+        ->join("r.lesSessions","s")
+        ->where('DATE_DIFF( s.date , CURRENT_DATE()) >= 0')
+        ->getQuery()
+        ->getResult();
+
+    }
+
+    /**
+    * @return Randonnee[] Returns an array of Randonnee objects
+    */
+   public function findByLibelle($recherche): array
+   {
+
+        return  
+        $this->createQueryBuilder('r')
+        ->join("r.lesSessions","s")
+        ->where('DATE_DIFF( s.date , CURRENT_DATE()) >= 0')
+        ->andWhere('r.libelle LIKE :libelle')
+        ->setParameter('libelle', '%'.$recherche.'%')
+        ->getQuery()
+        ->getResult();
+
+    }
+
 //    /**
 //     * @return Randonnee[] Returns an array of Randonnee objects
 //     */

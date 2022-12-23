@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+
 use App\Repository\RandonneeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -22,6 +23,7 @@ class Randonnee
     private ?int $dureeMinutes = null;
 
     #[ORM\OneToMany(mappedBy: 'laRandonnee', targetEntity: SessionRando::class, orphanRemoval: true)]
+    #[ORM\OrderBy(["date" => "ASC"])]
     private Collection $lesSessions;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
@@ -29,6 +31,9 @@ class Randonnee
 
     #[ORM\OneToMany(mappedBy: 'laRandonnee', targetEntity: Image::class, orphanRemoval: true)]
     private Collection $lesImages;
+
+    #[ORM\Column(length: 5000, nullable: true)]
+    private ?string $description = null;
 
     public function __construct()
     {
@@ -133,6 +138,18 @@ class Randonnee
                 $lesImage->setLaRandonnee(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }

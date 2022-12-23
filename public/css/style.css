@@ -1,0 +1,63 @@
+/*Police d'écriture Raleway*/
+@import url('https://fonts.googleapis.com/css2?family=Love+Light&family=Raleway:ital,wght@0,200;0,300;0,400;0,502;0,600;0,702;0,900;1,200;1,302&display=swap');
+
+
+:root {
+    --main_color : #467f3a;
+    --second_color : #26501d;
+  }
+
+
+body{
+
+    min-height: 800px;
+    font-family: 'Raleway', sans-serif !important;
+
+}
+
+.description{
+    max-height: 200px;
+    white-space: nowrap;
+    display: block;
+    -o-text-overflow : ellipsis;    /* Opera < 10 */
+    text-overflow :    ellipsis;
+    overflow: hidden;
+}
+
+/*Bouton Bootstrap*/
+
+.btn-primary {
+    color: #fff !important;
+    background-color: var(--main_color) !important;
+    border-color: var(--main_color) !important;
+  }
+  .btn-primary:hover {
+    color: #fff !important;
+    background-color: var(--second_color) !important;
+    border-color: var(--second_color) !important;
+  }
+  .btn-check:focus + .btn-primary, .btn-primary:focus {
+    color: #fff !important;
+    background-color: var(--second_color) !important;
+    border-color: var(--second_color) !important;
+    box-shadow: 0 0 0 0.25rem rgba(49, 253, 100, 0.5) !important;
+  }
+  .btn-check:checked + .btn-primary, .btn-check:active + .btn-primary, .btn-primary:active, .btn-primary.active, .show > .btn-primary.dropdown-toggle {
+    color: #fff !important;
+    background-color: var(--second_color) !important;
+    border-color: var(--second_color) !important;
+  }
+  .btn-check:checked + .btn-primary:focus, .btn-check:active + .btn-primary:focus, .btn-primary:active:focus, .btn-primary.active:focus, .show > .btn-primary.dropdown-toggle:focus {
+    box-shadow: 0 0 0 0.25rem rgba(49, 253, 100, 0.5) !important;
+  }
+  .btn-primary:disabled, .btn-primary.disabled {
+    color: #fff !important;
+    background-color: var(--second_color) !important;
+    border-color: var(--second_color) !important;
+  }
+
+
+  .text-justify{
+
+    text-align: justify;
+  }

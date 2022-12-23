@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Randonnees{% endblock %}
+
+{% block body %}
+
+{% include('navbar.html.twig') %}
+
+
+<div class="container mt-2">
+
+    <div class="row">
+
+        <h1>{{ laRandonnee.libelle|e }}</h1>
+
+        <div class="col-9">
+            <p class="text-justify">{{ laRandonnee.description|e }}</p>
+        </div>
+
+        <div class="col-3">
+            <img class="w-100 rounded mx-auto" src={% if laRandonnee.laMiniature is defined and laRandonnee.laMiniature is not null %}{{ asset('img/' ~ laRandonnee.laMiniature.lien) }}{% else %}{{ asset('img/remplissage.jpg') }}{% endif %} />
+
+            <select class="form-select mt-2" aria-label="Default select example">
+                {% for i in range(0, laRandonnee.lesSessions|length - 1) %}
+                    {% if i == 0 %}
+
+                    <option selected data-places="0" value={{laRandonnee.lesSessions[i].id|e}}>{{laRandonnee.lesSessions[i].date|date('d/m/Y - h')}}h{{laRandonnee.lesSessions[i].date|date('i')}}</option>
+
+                    {% else %}
+
+                    <option data-places="0" value={{laRandonnee.lesSessions[i].id|e}}>{{laRandonnee.lesSessions[i].date|date('d/m/Y - h')}}h{{laRandonnee.lesSessions[i].date|date('i')}}</option>
+
+                    {% endif %}
+                {% endfor %}
+
+            </select>
+
+            <p class="mt-2">Places restantes : 0 / {{ laRandonnee.lesSessions[0].nbPlaces|e }}<p>
+        </div>
+        
+    </div>
+
+    
+    <div class="row mt-2">
+        <p class="text fs-1">Photos</p>
+    </div>
+
+    <div class="row mt-2">
+
+        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                {% for image in laRandonnee.lesImages %}
+                    {% if (laRandonnee.laMiniature is defined and laRandonnee.laMiniature is null) or laRandonnee.laMiniature.id == image.id %}  
+                        <div class="carousel-item active">
+                        <img class="d-block w-100" src={% if laRandonnee.laMiniature is defined and laRandonnee.laMiniature is not null %}{{ asset('img/' ~ laRandonnee.laMiniature.lien) }}{% else %}{{ asset('img/remplissage.jpg') }}{% endif %} alt="First slide">
+                        </div>
+                    {% else %}
+                        <div class="carousel-item">
+                        <img class="d-block w-100" src={{ asset('img/' ~ image.lien) }} alt="First slide">
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+            </div>
+        
+    </div>
+
+</div>
+{% endblock %}
