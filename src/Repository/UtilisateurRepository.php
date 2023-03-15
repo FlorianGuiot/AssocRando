@@ -43,6 +43,21 @@ class UtilisateurRepository extends ServiceEntityRepository implements PasswordU
     }
 
     /**
+    * @return Utilisateur Retourne un Utilisateur en fonction de son adresse email
+    */
+   public function findUserByEmail($email): Utilisateur
+   {
+
+        return  
+        $this->createQueryBuilder('u')
+        ->where('u.email = :email')
+        ->setParameter('email', $email)
+        ->getQuery()
+        ->getOneOrNullResult();
+
+    }
+
+    /**
      * Used to upgrade (rehash) the user's password automatically over time.
      */
     public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword): void

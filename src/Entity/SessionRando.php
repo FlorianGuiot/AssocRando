@@ -93,6 +93,16 @@ class SessionRando
         return $this;
     }
 
+    public function estParticipant(Utilisateur $user): bool
+    {
+        $estParticipant = false;
+        if ($this->lesParticipants->contains($user)) {
+            $estParticipant = true;
+        }
+
+        return $estParticipant;
+    }
+
     public function removeLesParticipant(Utilisateur $lesParticipant): self
     {
         if ($this->lesParticipants->removeElement($lesParticipant)) {

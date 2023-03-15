@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello LoginController!{% endblock %}
+
+{% block body %}
+
+
+{% include('navbar.html.twig') %}
+
+    {% for flash_error in app.flashes('verify_email_error') %}
+        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+    {% endfor %}
+
+    <div class="container mt-2">
+        <h1>Connexion</h1>
+        {% if error %}
+            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
+
+        <form action="{{ path('app_login') }}" method="post">
+
+            <div class="row">
+                <div class="col-3">
+                    <label class="mb-2" for="inputEmail">Email</label>
+                    <input type="email" value="{{ last_username }}" name="_username" id="inputEmail" class="form-control mb-4" autocomplete="email" required autofocus>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <label class="mb-2" for="inputPassword">Mot de passe</label>
+                    <input type="password" name="_password" id="inputPassword" class="form-control mb-4" autocomplete="current-password" required>
+                </div>
+            </div>
+
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+            <button type="submit" class="btn btn-primary">Connexion</button>
+        </form>
+
+    </div>
+
+{% endblock %}

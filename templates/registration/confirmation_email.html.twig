@@ -1,0 +1,12 @@
+<h1>Hey ! Votre inscription est bientot terminée.</h1>
+
+<p>
+    Veuillez confirmer votre adresse email en utilisant le lien suivant: <br><br>
+    <a href="{{ signedUrl|raw }}">Confirm my Email</a>.
+    Ce lien expirera dans {{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }}.
+</p>
+
+<p>
+    Cordialement,
+    L'équipe AssocRando
+</p>

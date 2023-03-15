@@ -18,10 +18,17 @@
         <button class="btn btn-outline-success" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
       </form>
 
+      {% if app.user %}
       <div class="">
-        <a class="mx-2" href="">Connexion</a>
-        <a href="">Inscription</a>
+        <a class="mx-2 lien" href={{ path("app_register") }}>{{ app.user.prenom|e }} {{ app.user.nom|e }}</a>
+        <a class="lien" href={{ path("app_logout") }}>Déconnexion</a>
       </div>
+      {% else %}
+      <div class="">
+        <a class="mx-2 lien" href={{ path("app_login") }}>Connexion</a>
+        <a class="lien" href={{ path("app_register") }}>Inscription</a>
+      </div>
+      {% endif %}
       
     </div>
   </div>

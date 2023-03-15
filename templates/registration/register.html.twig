@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}inscription{% endblock %}
+
+{% block body %}
+
+{% include('navbar.html.twig') %}
+
+    {% for flash_error in app.flashes('verify_email_error') %}
+        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+    {% endfor %}
+
+    <div class="container mt-2">
+    <h1>Inscription</h1>
+
+    {{ form_start(registrationForm) }}
+        <div class="row">
+            <div class="col-3">
+                {{ form_row(registrationForm.prenom, { 'label': 'Prénom','attr': {'class': 'form-control'} }) }}
+            </div>
+
+            <div class="col-3">
+                {{ form_row(registrationForm.nom, { 'label': 'Nom','attr': {'class': 'form-control'} }) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-4">
+                {{ form_row(registrationForm.email, { 'label': 'Email','attr': {'class': 'form-control'} }) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-4">
+                {{ form_row(registrationForm.plainPassword, { 'label': 'Mot de passe','attr': {'class': 'form-control'} }) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-4">
+                {{ form_row(registrationForm.agreeTerms, { 'label': 'Accepter les CGU ','attr': {'class': 'form-check-input'} }) }}
+            </div>
+        </div>
+
+
+        <button type="submit" class="btn btn-primary">Valider</button>
+    {{ form_end(registrationForm) }}
+
+    </div>
+
+
+{% endblock %}

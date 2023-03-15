@@ -61,3 +61,13 @@ body{
 
     text-align: justify;
   }
+
+  .lien{
+    color: var(--main_color);
+    text-decoration: none;
+  }
+
+  .lien:hover{
+    color: var(--second_color);
+    text-decoration: none;
+  }

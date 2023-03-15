@@ -14,35 +14,50 @@
         <h1>{{ laRandonnee.libelle|e }}</h1>
 
         <div class="col-9">
+            <p class="text-justify"><i class="fa-solid fa-clock"></i> Durée : {{ duree }}</p>
+            
+            <p class="text fs-3">Description</p>
             <p class="text-justify">{{ laRandonnee.description|e }}</p>
         </div>
 
         <div class="col-3">
             <img class="w-100 rounded mx-auto" src={% if laRandonnee.laMiniature is defined and laRandonnee.laMiniature is not null %}{{ asset('img/' ~ laRandonnee.laMiniature.lien) }}{% else %}{{ asset('img/remplissage.jpg') }}{% endif %} />
 
-            <select class="form-select mt-2" aria-label="Default select example">
-                {% for i in range(0, laRandonnee.lesSessions|length - 1) %}
-                    {% if i == 0 %}
+            <form method="POST">
+                <div class="card w-100 mt-2">
+                    <div class="card-body">
+                        <h5 class="card-title">Session</h5>
+                        {% if erreur != "" %}<p class="alert alert-danger">{{ erreur }}</p>{% endif %}
+                        {% if success != "" %}<p class="alert alert-success">{{ success }}</p>{% endif %}
+                        <select id="idSession" name="idSession" class="form-select mt-2" aria-label="Default select example">
+                            {% for i in range(0, laRandonnee.lesSessions|length - 1) %}
+                                {% if i == 0 %}
 
-                    <option selected data-places="0" value={{laRandonnee.lesSessions[i].id|e}}>{{laRandonnee.lesSessions[i].date|date('d/m/Y - h')}}h{{laRandonnee.lesSessions[i].date|date('i')}}</option>
+                                <option selected data-placesr={{ laRandonnee.lesSessions[i].nbPlaces - laRandonnee.lesSessions[i].lesParticipants|length }} data-placest={{ laRandonnee.lesSessions[0].nbPlaces|e }} value={{laRandonnee.lesSessions[i].id|e}}>{{laRandonnee.lesSessions[i].date|date('d/m/Y - h')}}h{{laRandonnee.lesSessions[i].date|date('i')}}</option>
 
-                    {% else %}
+                                {% else %}
 
-                    <option data-places="0" value={{laRandonnee.lesSessions[i].id|e}}>{{laRandonnee.lesSessions[i].date|date('d/m/Y - h')}}h{{laRandonnee.lesSessions[i].date|date('i')}}</option>
+                                <option data-placesr={{ laRandonnee.lesSessions[i].nbPlaces - laRandonnee.lesSessions[i].lesParticipants|length }} data-placest={{ laRandonnee.lesSessions[0].nbPlaces|e }} value={{laRandonnee.lesSessions[i].id|e}}>{{laRandonnee.lesSessions[i].date|date('d/m/Y - h')}}h{{laRandonnee.lesSessions[i].date|date('i')}}</option>
 
-                    {% endif %}
-                {% endfor %}
+                                {% endif %}
+                            {% endfor %}
 
-            </select>
+                        </select>
 
-            <p class="mt-2">Places restantes : 0 / {{ laRandonnee.lesSessions[0].nbPlaces|e }}<p>
+                        <p class="mt-2">Places restantes : <span id="places"> {{ laRandonnee.lesSessions[0].nbPlaces - laRandonnee.lesSessions[0].lesParticipants|length }} / {{ laRandonnee.lesSessions[0].nbPlaces|e }}</span><p>
+                        
+                        <button name="btnSession" type="submit" class="btn btn-primary">S'inscrire</button>
+                    </div>
+                </div>
+                
+            </form>
         </div>
         
     </div>
 
     
     <div class="row mt-2">
-        <p class="text fs-1">Photos</p>
+        <p class="text fs-3">Photos</p>
     </div>
 
     <div class="row mt-2">
@@ -74,4 +89,14 @@
     </div>
 
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        ShowPlaces();
+       
+
+    });
+</script>
+
 {% endblock %}
